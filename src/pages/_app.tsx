@@ -4,8 +4,9 @@ import { SessionProvider } from "next-auth/react";
 
 import { api } from "~/utils/api"
 
-import { useLocalStorage } from "@mantine/hooks";
 import { MantineProvider, type ColorScheme, ColorSchemeProvider, DEFAULT_THEME } from "@mantine/core"
+import { useLocalStorage } from "@mantine/hooks";
+import { ModalsProvider } from "@mantine/modals"
 import { Layout } from "~/components/Layout";
 
 type CustomColor = typeof DEFAULT_THEME.colors & { primary?: [string, string, string, string, string, string, string, string, string, string] }
@@ -22,7 +23,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     ...DEFAULT_THEME,
     colors: {
       ...DEFAULT_THEME.colors,
-      primary: ['#9775fa', '#9775fa', '#9775fa', '#9775fa', '#9775fa', '#9775fa', '#9775fa', '#9775fa', '#9775fa', '#9775fa']
+      primary: ['#7950f2', '#7950f2', '#7950f2', '#7950f2', '#7950f2', '#7950f2', '#7950f2', '#7950f2', '#7950f2', '#7950f2']
     } as CustomColor,
     colorScheme,
     primaryColor: 'primary',
@@ -35,9 +36,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <ModalsProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ModalsProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </SessionProvider>

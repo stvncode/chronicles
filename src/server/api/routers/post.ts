@@ -1,3 +1,4 @@
+import { runConsumer, sendMessages } from '~/server/kafka'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 import { z } from 'zod'
 
@@ -17,7 +18,7 @@ export const postRouter = createTRPCRouter({
   getPost: publicProcedure
     .input(z.string())
     .query(({ ctx, input }) =>
-      ctx.prisma.user.findUnique({ where: { id: input } }),
+      ctx.prisma.post.findUnique({ where: { id: input } }),
     ),
   addPost: protectedProcedure
     .input(postSchema)
@@ -26,7 +27,8 @@ export const postRouter = createTRPCRouter({
         data: { ...input, author: { connect: { id: ctx.session.user.id } } },
       })
 
-      //TODO: We will use later on this post data to produce and consume data with kafka
+      await sendMessages('chronicles', JSON.stringify(post))
+      await runConsumer()
     }),
   updatePost: protectedProcedure
     .input(z.object({ id: z.string(), data: postSchema }))

@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core'
 
-export const useNoticationStyles = createStyles({
+export const useNotificationStyles = createStyles({
   avatar: {
     cursor: 'pointer',
   },

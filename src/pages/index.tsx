@@ -2,6 +2,7 @@ import { type NextPage } from "next"
 import { useSession } from "next-auth/react";
 import Head from "next/head"
 import { type FC } from "react";
+import { PostList } from "~/features/Post";
 
 const Home: NextPage = () => (
   <>
@@ -24,7 +25,7 @@ const DefaultAuth: FC = () => {
   return (
     <>
       {session ? (
-        <div>Post list</div>
+        <PostList />
       ) : (
         <span style={{ textAlign: 'center' }}>Not logged in</span>
       )}
